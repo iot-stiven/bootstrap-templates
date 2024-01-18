@@ -26,6 +26,7 @@ const dataDescription = [
     valueKey: "id",
     textKey: "name",
     subDataKey: "name",
+    subDataId: "id",
     name: "Rol",
     editable: true,
   },

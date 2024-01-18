@@ -20,6 +20,33 @@ function bsButton(
   return button
 }
 
+function bsForm(dataHeaders, id, selectData = null) {
+  const form = document.createElement("div");
+  dataHeaders.forEach(async (header) => {
+    if (!header.editable) return;
+    if (header.type == "select") {
+      form.append(
+        bsFormSelect(
+          `${id}-${header.dataKey}`,
+          selectData,
+          header.subDataId,
+          header.subDataKey,
+          header.name
+        )
+      );
+    } else {
+      form.append(
+        bsFormInput(
+          `${id}-${header.dataKey}`,
+          header.type,
+          header.name
+        )
+      );
+    }
+  });
+  return form;
+}
+
 function bsFormInput(id, inputType, labelText = "", placeholder = "") {
   const inputContainer = document.createElement("div");
   inputContainer.className = "mb-3 text-start";
