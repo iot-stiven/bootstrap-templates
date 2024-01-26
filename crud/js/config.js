@@ -41,13 +41,13 @@ async function crudCreate(data){
   delete dataForAction.role
   return await saveData("users", dataForAction)
 }
-function crudUpdate(data, id){
+async function crudUpdate(data, id){
   const dataForAction = {...data, role_id : data.role}
   delete dataForAction.role
-  return updateData(`users/${id}`, dataForAction)
+  return await updateData(`users/${id}`, dataForAction)
 }
-function crudDelete(id){
-  return deleteData(`users/${id}`)
+async function crudDelete(id){
+  return await deleteData(`users/${id}`)
 }
 
 function joinData(mainData, secondaryData, mainKey, secondaryKey, subDataName) {

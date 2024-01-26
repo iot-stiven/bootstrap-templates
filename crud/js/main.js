@@ -95,7 +95,7 @@ window.addEventListener("load", async () => {
                   icon: "success",
                   showConfirmButton: false
                 })
-                // setTimeout(() => window.location.href = "index.html", 2000)
+                setTimeout(() => window.location.href = "index.html", 2000)
               } catch (error) {
                 swalWithBootstrapButtons.fire({
                   title: "Error!",
