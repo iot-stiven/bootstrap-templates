@@ -86,11 +86,23 @@ window.addEventListener("load", async () => {
           })
           .then((result) => {
             if (result.isConfirmed) {
-              swalWithBootstrapButtons.fire({
-                title: "Deleted!",
-                text: "Your file has been deleted.",
-                icon: "success",
-              })
+              const data = setDataFromDOM("update")
+              try {
+                crudUpdate(data, selectedId)
+                swalWithBootstrapButtons.fire({
+                  title: "Usuario Editado!",
+                  text: "El Ususario ha sido editado con éxito",
+                  icon: "success",
+                  showConfirmButton: false
+                })
+                // setTimeout(() => window.location.href = "index.html", 2000)
+              } catch (error) {
+                swalWithBootstrapButtons.fire({
+                  title: "Error!",
+                  text: "Ha ocurrido un error, vuelve a intentarlo",
+                  icon: "error",
+                })
+              }
             }
           })
       },
@@ -114,11 +126,22 @@ window.addEventListener("load", async () => {
           })
           .then((result) => {
             if (result.isConfirmed) {
-              swalWithBootstrapButtons.fire({
-                title: "Deleted!",
-                text: "Your file has been deleted.",
-                icon: "success",
-              })
+              try {
+                crudDelete(selectedId)
+                swalWithBootstrapButtons.fire({
+                  title: "Usuario Eliminado!",
+                  text: "El Ususario ha sido eliminado con éxito",
+                  icon: "success",
+                  showConfirmButton: false
+                })
+                setTimeout(() => window.location.href = "index.html", 2000)
+              } catch (error) {
+                swalWithBootstrapButtons.fire({
+                  title: "Error!",
+                  text: "Ha ocurrido un error, vuelve a intentarlo",
+                  icon: "error",
+                })
+              }
             }
           })
       }
