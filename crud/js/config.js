@@ -1,3 +1,7 @@
+const API_USERNAME = "Albeiro"
+const API_PASSWORD = "123"
+const API_ROOT_URL = "http://localhost:8000/api"
+
 const crudTitle = "Administración de Usuarios"
 const dataDescription = [
   {
@@ -32,50 +36,17 @@ const dataDescription = [
   },
 ]
 
-//Test data
-const users = [
-  {
-    id: 1,
-    role_id: 1,
-    name: "Usuario 1",
-  },
-  {
-    id: 2,
-    role_id: 2,
-    name: "Usuario 2",
-  },
-  {
-    id: 3,
-    role_id: 2,
-    name: "Usuario 3",
-  },
-  {
-    id: 4,
-    role_id: 2,
-    name: "Usuario 4",
-  },
-  {
-    id: 5,
-    role_id: 2,
-    name: "Usuario 5",
-  },
-  {
-    id: 6,
-    role_id: 2,
-    name: "Usuario 6",
-  },
-]
+async function crudCreate(data){
+  const dataForAction = {...data, role_id : data.role}
+  delete dataForAction.role
+  return await saveData("users", dataForAction)
+}
+function crudUpdate(data, id){
 
-const roles = [
-  {
-    id: 1,
-    name: "Administrador",
-  },
-  {
-    id: 2,
-    name: "Recepcionista",
-  },
-]
+}
+function crudDelete(id){
+
+}
 
 function joinData(mainData, secondaryData, mainKey, secondaryKey, subDataName) {
   const mainDataCopy = [...mainData]

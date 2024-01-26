@@ -3,10 +3,17 @@ const tableHeaders = dataDescription.filter((data) => !!data.tableHeader)
 let selectedId
 
 window.addEventListener("load", async () => {
-  const mainData = users
-  const secondaryData = roles
+  //Esto no va, sólo simula el login
+  await login()
+  //--------------------------------
+  //Aquí se obtienen los datos!
+  const mainData = await fetchData("users")
+  const secondaryData = await fetchData("roles")
   const tableData = joinData(mainData, secondaryData, "role_id", "id", "role")
-
+  console.log(mainData)
+  console.log(secondaryData)
+  console.log(tableData)
+  //--------------------------------
 
 
   const createForm = bsForm(dataDescription, "create", secondaryData)
@@ -30,13 +37,25 @@ window.addEventListener("load", async () => {
           cancelButtonText: "Cancelar",
           reverseButtons: true,
         })
-        .then((result) => {
+        .then(async (result) => {
           if (result.isConfirmed) {
-            swalWithBootstrapButtons.fire({
-              title: "Deleted!",
-              text: "Your file has been deleted.",
-              icon: "success",
-            })
+            const data = setDataFromDOM("create")
+            try {
+              await crudCreate(data)
+              swalWithBootstrapButtons.fire({
+                title: "Usuario Creado!",
+                text: "El Ususario ha sido creado con éxito",
+                icon: "success",
+                showConfirmButton: false
+              })
+              setTimeout(() => window.location.href = "index.html", 2000)
+            } catch (error) {
+              swalWithBootstrapButtons.fire({
+                title: "Error!",
+                text: "Ha ocurrido un error, vuelve a intentarlo",
+                icon: "error",
+              })
+            }
           }
         })
     }),
@@ -57,7 +76,7 @@ window.addEventListener("load", async () => {
             title: "Editar",
             html: updateForm,
             didOpen: setTimeout(
-              () => setDOMFromData(dataDescription, tableData, "update"),
+              () => setDOMFromData(tableData, "update"),
               100
             ),
             showCancelButton: true,
@@ -107,8 +126,8 @@ window.addEventListener("load", async () => {
   )
 })
 
-function setDataFromDOM(dataHeaders, action) {
-  let data = dataHeaders.filter((element) => !!element.editable)
+function setDataFromDOM(action) {
+  let data = dataDescription.filter((element) => !!element.editable)
   data = data.map((element) => element.dataKey)
   const object = {}
   for (i in data) {
@@ -118,9 +137,9 @@ function setDataFromDOM(dataHeaders, action) {
   return object
 }
 
-function setDOMFromData(dataHeaders, tableData, action) {
+function setDOMFromData(tableData, action) {
   const values = tableData.find((data) => data.id == selectedId)
-  let data = dataHeaders.filter((element) => !!element.editable)
+  let data = dataDescription.filter((element) => !!element.editable)
   for (i in data) {
     if (data[i].type == "select") {
       document.getElementById(`${action}-${data[i].dataKey}`).value =
